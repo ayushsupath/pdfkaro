@@ -24,20 +24,40 @@ export default function PDFPreviewCanvas({
 
     ;(async () => {
       try {
-        const doc = await loadPdfDocument(pdfFile)
-        const rendered = []
-        for (let i = 1; i <= doc.numPages; i++) {
-          if (cancelled) return
-          const { canvas, viewport } = await renderPageToCanvas(doc, i, 1.2)
-          rendered.push({
-            pageIndex: i - 1,
-            dataUrl: canvas.toDataURL('image/jpeg', 0.85),
-            width: viewport.width,
-            height: viewport.height,
+        if (pdfFile.type.startsWith('image/')) {
+          const src = URL.createObjectURL(pdfFile)
+          const img = new Image()
+          await new Promise((resolve, reject) => {
+            img.onload = resolve
+            img.onerror = reject
+            img.src = src
           })
+          if (!cancelled) {
+            setPages([
+              {
+                pageIndex: 0,
+                dataUrl: src,
+                width: img.width,
+                height: img.height,
+              },
+            ])
+          }
+        } else {
+          const doc = await loadPdfDocument(pdfFile)
+          const rendered = []
+          for (let i = 1; i <= doc.numPages; i++) {
+            if (cancelled) return
+            const { canvas, viewport } = await renderPageToCanvas(doc, i, 1.2)
+            rendered.push({
+              pageIndex: i - 1,
+              dataUrl: canvas.toDataURL('image/jpeg', 0.85),
+              width: viewport.width,
+              height: viewport.height,
+            })
+          }
+          if (!cancelled) setPages(rendered)
+          doc.destroy()
         }
-        if (!cancelled) setPages(rendered)
-        doc.destroy()
       } catch {
         if (!cancelled) setPages([])
       } finally {

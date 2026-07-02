@@ -10,7 +10,7 @@ import DrawSignature from '../components/signature/DrawSignature'
 import TypeSignature from '../components/signature/TypeSignature'
 import UploadSignature from '../components/signature/UploadSignature'
 import PDFPreviewCanvas from '../components/signature/PDFPreviewCanvas'
-import { embedSignatureOnPdf } from '../utils/imageHelpers'
+import { embedSignatureOnPdf, embedSignatureOnImage } from '../utils/imageHelpers'
 import { validateFile, generateVerificationHash } from '../utils/pdfHelpers'
 import { useSignatureStore } from '../store/useStore'
 
@@ -40,7 +40,7 @@ export default function SignPdf() {
   const handlePdfUpload = (files) => {
     setError(null)
     const f = files[0]
-    const err = validateFile(f, { types: ['application/pdf'] })
+    const err = validateFile(f, { types: ['application/pdf', 'image/jpeg', 'image/png'] })
     if (err) {
       setError(err)
       toast.error(err)
@@ -155,7 +155,7 @@ export default function SignPdf() {
 
   const downloadSigned = async () => {
     if (!pdfFile) {
-      toast.error('Upload a PDF first')
+      toast.error('Upload a file first')
       return
     }
     if (!placements.length) {
@@ -173,10 +173,19 @@ export default function SignPdf() {
       }
 
       setProgress(60)
-      const blob = await embedSignatureOnPdf(pdfFile, placements, qrDataUrl)
+      
+      let blob;
+      if (pdfFile.type.startsWith('image/')) {
+        blob = await embedSignatureOnImage(pdfFile, placements, qrDataUrl)
+      } else {
+        blob = await embedSignatureOnPdf(pdfFile, placements, qrDataUrl)
+      }
+      
       setProgress(100)
-      saveAs(blob, 'pdfkaro-signed.pdf')
-      toast.success('Signed PDF downloaded!')
+      
+      const ext = pdfFile.type === 'image/png' ? 'png' : pdfFile.type === 'image/jpeg' ? 'jpg' : 'pdf'
+      saveAs(blob, `pdfkaro-signed.${ext}`)
+      toast.success('Signed file downloaded!')
     } catch (err) {
       toast.error(err.message || 'Signing failed')
     } finally {
@@ -194,8 +203,8 @@ export default function SignPdf() {
       {!pdfFile ? (
         <UploadZone
           onFiles={handlePdfUpload}
-          accept="application/pdf"
-          label="Upload the PDF you want to sign"
+          accept="application/pdf,image/jpeg,image/png"
+          label="Upload the PDF or image you want to sign"
           sublabel="Your file stays on your device"
         />
       ) : (
@@ -287,7 +296,7 @@ export default function SignPdf() {
           {/* Step 3: Place on PDF */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
             <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-              2. Place on PDF
+              2. Place on Document
             </h3>
 
             <div className="mb-4 flex flex-wrap gap-2">
@@ -340,7 +349,7 @@ export default function SignPdf() {
           {/* Step 4: Download */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
             <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-              3. Download signed PDF
+              3. Download signed file
             </h3>
 
             <label className="mb-4 flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
@@ -373,7 +382,7 @@ export default function SignPdf() {
               </div>
             )}
 
-            {processing && <ProgressBar progress={progress} label="Creating signed PDF..." />}
+            {processing && <ProgressBar progress={progress} label="Creating signed file..." />}
 
             <button
               onClick={downloadSigned}
@@ -381,7 +390,7 @@ export default function SignPdf() {
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-accent-600 disabled:opacity-50 sm:w-auto"
             >
               <Download className="h-5 w-5" />
-              {processing ? 'Signing...' : 'Download Signed PDF'}
+              {processing ? 'Signing...' : 'Download Signed File'}
             </button>
           </div>
         </>

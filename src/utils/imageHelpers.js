@@ -146,6 +146,51 @@ export async function embedSignatureOnPdf(pdfFile, placements, qrDataUrl) {
   return new Blob([pdfBytes], { type: 'application/pdf' })
 }
 
+export async function embedSignatureOnImage(imageFile, placements, qrDataUrl) {
+  const src = URL.createObjectURL(imageFile)
+  const img = await loadImage(src)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = img.width
+  canvas.height = img.height
+  const ctx = canvas.getContext('2d')
+
+  // Draw base image
+  ctx.drawImage(img, 0, 0)
+
+  // Draw placements
+  for (const placement of placements) {
+    if (placement.pageIndex !== 0) continue
+    const pImg = await loadImage(placement.imageDataUrl)
+    const imgWidth = placement.widthRatio * canvas.width
+    const imgHeight = (pImg.height / pImg.width) * imgWidth
+    const x = placement.xRatio * canvas.width
+    const y = placement.yRatio * canvas.height
+    
+    ctx.drawImage(pImg, x, y, imgWidth, imgHeight)
+  }
+
+  // Draw QR code
+  if (qrDataUrl) {
+    const qrImg = await loadImage(qrDataUrl)
+    const qrSize = 40
+    // Using same bottom-right offset logic as PDF
+    ctx.drawImage(
+      qrImg,
+      canvas.width - qrSize - 10,
+      canvas.height - qrSize - 10,
+      qrSize,
+      qrSize
+    )
+  }
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob)
+    }, imageFile.type, 0.95) // Use original image format
+  })
+}
+
 function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
