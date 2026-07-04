@@ -20,6 +20,8 @@ import ToolPageLayout from '../components/shared/ToolPageLayout'
 import UploadZone, { ErrorBanner } from '../components/shared/UploadZone'
 import FileCard from '../components/shared/FileCard'
 import ProgressBar from '../components/shared/ProgressBar'
+import Button from '../components/shared/Button'
+import Panel from '../components/shared/Panel'
 import { imagesToPdf } from '../utils/imageHelpers'
 import { validateFile } from '../utils/pdfHelpers'
 
@@ -125,9 +127,9 @@ export default function JpgToPdf() {
             </SortableContext>
           </DndContext>
 
-          <label className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400">
+          <label className="inline-flex cursor-pointer items-center gap-2 border border-border bg-black/70 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary">
             <Plus className="h-4 w-4" />
-            Add more images
+            add more images
             <input
               type="file"
               accept="image/jpeg,image/png,image/webp"
@@ -142,14 +144,10 @@ export default function JpgToPdf() {
 
           {processing && <ProgressBar progress={progress} label="Creating PDF..." />}
 
-          <button
-            onClick={convert}
-            disabled={processing}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-50 sm:w-auto"
-          >
-            <Download className="h-5 w-5" />
-            {processing ? 'Converting...' : 'Download PDF'}
-          </button>
+          <Button onClick={convert} disabled={processing} variant="primary">
+            <Download className="h-4 w-4" />
+            {processing ? 'Converting...' : '[ DOWNLOAD PDF ]'}
+          </Button>
         </>
       )}
     </ToolPageLayout>

@@ -1,21 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fira+Code:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
-  --color-accent-400: #fb923c;
-  --color-accent-500: #f97316;
-  --color-accent-600: #ea580c;
+  --color-background: #0a0a0a;
+  --color-primary: #33ff00;
+  --color-secondary: #ffb000;
+  --color-muted: #1f521f;
+  --color-accent: #33ff00;
+  --color-error: #ff3333;
+  --color-border: #1f521f;
+  --color-primary-50: #eaffdf;
+  --color-primary-100: #d1f7bf;
+  --color-primary-400: #66ff4d;
+  --color-primary-500: #33ff00;
+  --color-primary-600: #2ed600;
+  --color-primary-700: #1f9d00;
+  --color-primary-900: #103a0a;
+  --color-accent-400: #33ff00;
+  --color-accent-500: #33ff00;
+  --color-accent-600: #2ed600;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
   --font-signature-1: "Dancing Script", cursive;
   --font-signature-2: "Great Vibes", cursive;
   --font-signature-3: "Sacramento", cursive;
@@ -24,12 +30,35 @@
 }
 
 @layer base {
+  :root {
+    color-scheme: dark;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100;
+    @apply min-h-screen bg-background font-mono text-primary antialiased;
+    background-image: linear-gradient(rgba(51, 255, 0, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 18px 18px, 18px 18px;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0, rgba(255, 255, 255, 0.025) 1px, transparent 1px, transparent 4px);
+    opacity: 0.2;
+    mix-blend-mode: screen;
+    z-index: 0;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -48,5 +77,41 @@
   }
   .font-signature-5 {
     font-family: var(--font-signature-5);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 5px rgba(51, 255, 0, 0.5);
+  }
+
+  .cursor-blink {
+    animation: blink 1s steps(1) infinite;
+  }
+
+  .glitch-hover:hover {
+    animation: glitch 0.2s steps(2) infinite;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(1px, -1px);
+  }
+  60% {
+    transform: translate(-1px, -1px);
+  }
+  80% {
+    transform: translate(1px, 1px);
   }
 }

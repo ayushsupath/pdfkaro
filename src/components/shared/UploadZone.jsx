@@ -39,10 +39,8 @@ export default function UploadZone({
       }}
       onDragLeave={() => setDragOver(false)}
       onDrop={onDrop}
-      className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-12 transition-all duration-200 ${
-        dragOver
-          ? 'border-primary-500 bg-primary-50 dark:bg-primary-950/30'
-          : 'border-gray-300 bg-white hover:border-primary-400 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-primary-600 dark:hover:bg-gray-800/50'
+      className={`block cursor-pointer border border-border bg-black/70 p-6 transition-all duration-150 ${
+        dragOver ? 'border-primary bg-primary/10' : 'hover:border-primary hover:bg-black/90'
       }`}
     >
       <input
@@ -55,15 +53,23 @@ export default function UploadZone({
           e.target.value = ''
         }}
       />
-      <div
-        className={`mb-4 rounded-full p-4 transition-colors ${
-          dragOver ? 'bg-primary-100 dark:bg-primary-900/50' : 'bg-gray-100 dark:bg-gray-800'
-        }`}
-      >
-        <Icon className={`h-8 w-8 ${dragOver ? 'text-primary-600' : 'text-gray-400'}`} />
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted">[upload]</p>
+          <p className="mt-3 text-base font-semibold uppercase tracking-[0.2em] text-primary">
+            user@pdfkaro:~$ drop file to continue<span className="cursor-blink">_</span>
+          </p>
+          <p className="mt-3 text-sm text-primary/80">{label}</p>
+          <p className="mt-1 text-xs uppercase tracking-[0.25em] text-muted">{sublabel}</p>
+        </div>
+        <div className={`border px-2 py-1 text-[10px] uppercase tracking-[0.3em] ${dragOver ? 'border-primary text-primary' : 'border-border text-muted'}`}>
+          {dragOver ? '[OK]' : '[IN]'}
+        </div>
       </div>
-      <p className="text-base font-medium text-gray-700 dark:text-gray-200">{label}</p>
-      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{sublabel}</p>
+      <div className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-muted">
+        <Icon className="h-4 w-4" />
+        <span>dropzone ready</span>
+      </div>
     </label>
   )
 }
@@ -71,9 +77,9 @@ export default function UploadZone({
 export function ErrorBanner({ message }) {
   if (!message) return null
   return (
-    <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950/30">
-      <FileWarning className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
-      <p className="text-sm text-red-700 dark:text-red-300">{message}</p>
+    <div className="flex items-start gap-3 border border-error/40 bg-black/80 p-4 text-error">
+      <FileWarning className="mt-0.5 h-5 w-5 shrink-0" />
+      <p className="text-sm">[ERR] {message}</p>
     </div>
   )
 }

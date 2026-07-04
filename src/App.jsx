@@ -22,7 +22,7 @@ export default function App() {
       <Toaster
         position="bottom-center"
         toastOptions={{
-          className: 'dark:bg-gray-800 dark:text-white',
+          className: 'border border-border bg-background text-primary font-mono rounded-none',
           duration: 3000,
         }}
       />

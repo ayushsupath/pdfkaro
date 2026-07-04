@@ -6,6 +6,9 @@ import { Download } from 'lucide-react'
 import ToolPageLayout from '../components/shared/ToolPageLayout'
 import UploadZone, { ErrorBanner } from '../components/shared/UploadZone'
 import ProgressBar from '../components/shared/ProgressBar'
+import Button from '../components/shared/Button'
+import Panel from '../components/shared/Panel'
+import TerminalInput from '../components/shared/TerminalInput'
 import { pdfPagesToImages } from '../utils/imageHelpers'
 import { validateFile, getPdfPageCount } from '../utils/pdfHelpers'
 
@@ -74,51 +77,44 @@ export default function PdfToJpg() {
         />
       ) : (
         <>
-          <div className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-            <p className="font-medium text-gray-900 dark:text-white">{file.name}</p>
-            <p className="text-sm text-gray-500">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
+          <Panel title="+--- FILE INFO ---+">
+            <p className="text-sm text-primary">{file.name}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.25em] text-muted">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
             <button
               onClick={() => {
                 setFile(null)
                 setPageCount(0)
               }}
-              className="mt-2 text-sm text-primary-600 hover:underline dark:text-primary-400"
+              className="mt-3 border border-border px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary"
             >
-              Choose a different file
+              choose a different file
             </button>
-          </div>
+          </Panel>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Output format
-            </label>
-            <div className="flex gap-2">
+          <Panel title="+--- OUTPUT FORMAT ---+">
+            <div className="flex flex-wrap gap-2">
               {['jpeg', 'png'].map((f) => (
                 <button
                   key={f}
                   onClick={() => setFormat(f)}
-                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`border px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition-colors ${
                     format === f
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                      ? 'border-primary bg-primary text-background'
+                      : 'border-border text-primary hover:border-primary hover:bg-primary/10'
                   }`}
                 >
-                  {f.toUpperCase()}
+                  {f}
                 </button>
               ))}
             </div>
-          </div>
+          </Panel>
 
           {processing && <ProgressBar progress={progress} label="Converting pages..." />}
 
-          <button
-            onClick={convert}
-            disabled={processing}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-50 sm:w-auto"
-          >
-            <Download className="h-5 w-5" />
-            {processing ? 'Converting...' : pageCount > 1 ? 'Download ZIP' : 'Download Image'}
-          </button>
+          <Button onClick={convert} disabled={processing} variant="primary">
+            <Download className="h-4 w-4" />
+            {processing ? 'Converting...' : pageCount > 1 ? '[ DOWNLOAD ZIP ]' : '[ DOWNLOAD IMAGE ]'}
+          </Button>
         </>
       )}
 

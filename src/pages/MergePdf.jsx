@@ -20,6 +20,7 @@ import ToolPageLayout from '../components/shared/ToolPageLayout'
 import UploadZone, { ErrorBanner } from '../components/shared/UploadZone'
 import FileCard from '../components/shared/FileCard'
 import ProgressBar from '../components/shared/ProgressBar'
+import Button from '../components/shared/Button'
 import { mergePdfs } from '../utils/imageHelpers'
 import { validateFile } from '../utils/pdfHelpers'
 
@@ -119,9 +120,9 @@ export default function MergePdf() {
             </SortableContext>
           </DndContext>
 
-          <label className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400">
+          <label className="inline-flex cursor-pointer items-center gap-2 border border-border bg-black/70 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary">
             <Plus className="h-4 w-4" />
-            Add more PDFs
+            add more pdfs
             <input
               type="file"
               accept="application/pdf"
@@ -136,14 +137,10 @@ export default function MergePdf() {
 
           {processing && <ProgressBar progress={progress} label="Merging PDFs..." />}
 
-          <button
-            onClick={merge}
-            disabled={processing || items.length < 2}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-50 sm:w-auto"
-          >
-            <Download className="h-5 w-5" />
-            {processing ? 'Merging...' : 'Download Merged PDF'}
-          </button>
+          <Button onClick={merge} disabled={processing || items.length < 2} variant="primary">
+            <Download className="h-4 w-4" />
+            {processing ? 'Merging...' : '[ DOWNLOAD MERGED PDF ]'}
+          </Button>
         </>
       )}
     </ToolPageLayout>

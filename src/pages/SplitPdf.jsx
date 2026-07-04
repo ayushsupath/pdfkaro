@@ -6,6 +6,9 @@ import { Download } from 'lucide-react'
 import ToolPageLayout from '../components/shared/ToolPageLayout'
 import UploadZone, { ErrorBanner } from '../components/shared/UploadZone'
 import ProgressBar from '../components/shared/ProgressBar'
+import Button from '../components/shared/Button'
+import Panel from '../components/shared/Panel'
+import TerminalInput from '../components/shared/TerminalInput'
 import { splitPdf } from '../utils/imageHelpers'
 import { validateFile, getPdfPageCount } from '../utils/pdfHelpers'
 
@@ -79,76 +82,65 @@ export default function SplitPdf() {
         />
       ) : (
         <>
-          <div className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-            <p className="font-medium text-gray-900 dark:text-white">{file.name}</p>
-            <p className="text-sm text-gray-500">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
+          <Panel title="+--- FILE INFO ---+">
+            <p className="text-sm text-primary">{file.name}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.25em] text-muted">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
             <button
               onClick={() => {
                 setFile(null)
                 setPageCount(0)
               }}
-              className="mt-2 text-sm text-primary-600 hover:underline dark:text-primary-400"
+              className="mt-3 border border-border px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary"
             >
-              Choose a different file
+              choose a different file
             </button>
-          </div>
+          </Panel>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Split mode
-            </label>
+          <Panel title="+--- SPLIT MODE ---+">
             <div className="flex flex-col gap-2 sm:flex-row">
               <button
                 onClick={() => setMode('all')}
-                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
+                className={`border px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition-colors ${
                   mode === 'all'
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                    ? 'border-primary bg-primary text-background'
+                    : 'border-border text-primary hover:border-primary hover:bg-primary/10'
                 }`}
               >
-                Split into individual pages
+                split into individual pages
               </button>
               <button
                 onClick={() => setMode('extract')}
-                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
+                className={`border px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition-colors ${
                   mode === 'extract'
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+                    ? 'border-primary bg-primary text-background'
+                    : 'border-border text-primary hover:border-primary hover:bg-primary/10'
                 }`}
               >
-                Extract specific pages
+                extract specific pages
               </button>
             </div>
-          </div>
+          </Panel>
 
           {mode === 'extract' && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Page numbers
-              </label>
-              <input
+            <Panel title="+--- PAGE RANGE ---+">
+              <TerminalInput
                 type="text"
                 value={pageRanges}
                 onChange={(e) => setPageRanges(e.target.value)}
                 placeholder="e.g. 1,3,5-7"
-                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
               />
-              <p className="mt-1 text-xs text-gray-500">
-                Use commas for individual pages and dashes for ranges
+              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted">
+                use commas for individual pages and dashes for ranges
               </p>
-            </div>
+            </Panel>
           )}
 
           {processing && <ProgressBar progress={progress} label="Splitting PDF..." />}
 
-          <button
-            onClick={split}
-            disabled={processing}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-50 sm:w-auto"
-          >
-            <Download className="h-5 w-5" />
-            {processing ? 'Splitting...' : mode === 'all' ? 'Download ZIP of Pages' : 'Download Extracted PDF'}
-          </button>
+          <Button onClick={split} disabled={processing} variant="primary">
+            <Download className="h-4 w-4" />
+            {processing ? 'Splitting...' : mode === 'all' ? '[ DOWNLOAD ZIP ]' : '[ DOWNLOAD EXTRACTED PDF ]'}
+          </Button>
         </>
       )}
 

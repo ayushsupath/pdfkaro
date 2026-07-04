@@ -15,51 +15,51 @@ export default function FileCard({ id, file, preview, onRemove, index }) {
   }
 
   const isImage = file.type.startsWith('image/')
-  const isPdf = file.type === 'application/pdf'
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+      className="flex items-center gap-3 border border-border bg-black/70 p-3"
     >
       <button
         {...attributes}
         {...listeners}
-        className="cursor-grab touch-none text-gray-400 hover:text-gray-600 active:cursor-grabbing dark:hover:text-gray-300"
+        className="cursor-grab touch-none text-muted hover:text-primary active:cursor-grabbing"
         aria-label="Drag to reorder"
       >
         <GripVertical className="h-5 w-5" />
       </button>
 
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary-100 text-xs font-bold text-primary-700 dark:bg-primary-900/50 dark:text-primary-300">
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center border border-border text-[10px] text-primary">
         {index + 1}
       </span>
 
       {preview ? (
-        <img src={preview} alt="" className="h-12 w-12 rounded-lg object-cover" />
+        <div className="shrink-0 border border-border p-1">
+          <img src={preview} alt="" className="h-12 w-12 object-cover" />
+        </div>
       ) : (
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-          {isImage ? (
-            <ImageIcon className="h-5 w-5 text-gray-400" />
-          ) : (
-            <FileText className="h-5 w-5 text-gray-400" />
-          )}
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-border bg-black/40">
+          {isImage ? <ImageIcon className="h-5 w-5 text-muted" /> : <FileText className="h-5 w-5 text-muted" />}
         </div>
       )}
 
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">{file.name}</p>
-        <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+        <p className="truncate text-sm font-medium text-primary">{file.name}</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted">{formatFileSize(file.size)}</p>
       </div>
 
-      <button
-        onClick={onRemove}
-        className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950/30"
-        aria-label="Remove file"
-      >
-        <X className="h-4 w-4" />
-      </button>
+      <div className="flex items-center gap-2">
+        <span className="border border-border px-2 py-1 text-[9px] uppercase tracking-[0.3em] text-primary">[OK]</span>
+        <button
+          onClick={onRemove}
+          className="border border-border p-1.5 text-muted transition-colors hover:bg-error hover:text-background"
+          aria-label="Remove file"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
     </div>
   )
 }

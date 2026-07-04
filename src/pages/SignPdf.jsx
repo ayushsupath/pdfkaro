@@ -6,6 +6,9 @@ import { Download, Save, Trash2, Plus, Calendar, Type } from 'lucide-react'
 import ToolPageLayout from '../components/shared/ToolPageLayout'
 import UploadZone, { ErrorBanner } from '../components/shared/UploadZone'
 import ProgressBar from '../components/shared/ProgressBar'
+import Button from '../components/shared/Button'
+import Panel from '../components/shared/Panel'
+import TerminalInput from '../components/shared/TerminalInput'
 import DrawSignature from '../components/signature/DrawSignature'
 import TypeSignature from '../components/signature/TypeSignature'
 import UploadSignature from '../components/signature/UploadSignature'
@@ -209,37 +212,37 @@ export default function SignPdf() {
         />
       ) : (
         <>
-          <div className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-            <p className="font-medium text-gray-900 dark:text-white">{pdfFile.name}</p>
+          <Panel title="+--- FILE INFO ---+">
+            <p className="text-sm text-primary">{pdfFile.name}</p>
             <button
               onClick={() => {
                 setPdfFile(null)
                 setPlacements([])
               }}
-              className="mt-1 text-sm text-primary-600 hover:underline dark:text-primary-400"
+              className="mt-3 border border-border px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary"
             >
-              Choose a different file
+              choose a different file
             </button>
-          </div>
+          </Panel>
 
           {/* Step 2: Create Signature */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
-            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-              1. Create your signature
+          <Panel title="+--- CREATE SIGNATURE ---+">
+            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted">
+              1. create your signature
             </h3>
 
-            <div className="mb-4 flex gap-1 rounded-lg bg-gray-100 p-1 dark:bg-gray-800">
+            <div className="mb-4 flex flex-wrap gap-2">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`border px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-white text-primary-700 shadow-sm dark:bg-gray-900 dark:text-primary-400'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400'
+                      ? 'border-primary bg-primary text-background'
+                      : 'border-border text-primary hover:border-primary hover:bg-primary/10'
                   }`}
                 >
-                  {tab.label}
+                  --{tab.label.toLowerCase()}
                 </button>
               ))}
             </div>
@@ -257,82 +260,66 @@ export default function SignPdf() {
             {activeTab === 'upload' && <UploadSignature onSignatureReady={handleSignatureReady} />}
 
             {currentSignature && (
-              <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800">
-                <p className="mb-2 text-xs font-medium text-gray-500">Current signature</p>
-                <img src={currentSignature} alt="Signature preview" className="max-h-16" />
+              <div className="mt-4 border border-border bg-black/70 p-3">
+                <p className="mb-2 text-[10px] uppercase tracking-[0.25em] text-muted">current signature</p>
+                <img src={currentSignature} alt="Signature preview" className="max-h-16 border border-border p-1" />
               </div>
             )}
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                onClick={saveSignatureLocally}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-              >
+              <Button onClick={saveSignatureLocally} variant="ghost">
                 <Save className="h-4 w-4" />
-                Save locally
-              </button>
+                save locally
+              </Button>
               {savedSignature && (
                 <>
-                  <button
-                    onClick={loadSavedSignature}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-primary-50 px-3 py-2 text-sm font-medium text-primary-700 hover:bg-primary-100 dark:bg-primary-950/40 dark:text-primary-300"
-                  >
-                    Load saved
-                  </button>
+                  <Button onClick={loadSavedSignature} variant="primary">
+                    load saved
+                  </Button>
                   <button
                     onClick={() => {
                       clearSavedSignature()
                       toast.success('Saved signature cleared')
                     }}
-                    className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                    className="border border-error px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-error transition-colors hover:bg-error hover:text-background"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </>
               )}
             </div>
-          </div>
+          </Panel>
 
-          {/* Step 3: Place on PDF */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
-            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-              2. Place on Document
+          <Panel title="+--- PLACE ON DOCUMENT ---+">
+            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted">
+              2. place on document
             </h3>
 
             <div className="mb-4 flex flex-wrap gap-2">
-              <button
-                onClick={() => addPlacement('signature')}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white hover:bg-primary-700"
-              >
+              <Button onClick={() => addPlacement('signature')} variant="primary">
                 <Plus className="h-4 w-4" />
-                Add signature
-              </button>
-              <button
-                onClick={() => addPlacement('date')}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300"
-              >
+                add signature
+              </Button>
+              <Button onClick={() => addPlacement('date')} variant="ghost">
                 <Calendar className="h-4 w-4" />
-                Add date
-              </button>
-              <button
-                onClick={() => addPlacement('initials')}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300"
-              >
+                add date
+              </Button>
+              <Button onClick={() => addPlacement('initials')} variant="ghost">
                 <Type className="h-4 w-4" />
-                Add initials
-              </button>
+                add initials
+              </Button>
             </div>
 
-            <p className="mb-4 text-xs text-gray-500">
-              Click on a page to place a signature, or use the buttons above. Drag to reposition. Select a placement to resize.
+            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-muted">
+              click on a page to place a signature, or use the buttons above. drag to reposition. select a placement to resize.
             </p>
 
             {activePlacementId && (
               <button
                 onClick={() => removePlacement(activePlacementId)}
-                className="mb-4 text-sm text-red-600 hover:underline"
+                className="mb-4 border border-error px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-error transition-colors hover:bg-error hover:text-background"
               >
-                Remove selected placement
+                remove selected placement
               </button>
             )}
 
@@ -344,26 +331,25 @@ export default function SignPdf() {
               onSelectPlacement={setActivePlacementId}
               onPageClick={handlePageClick}
             />
-          </div>
+          </Panel>
 
-          {/* Step 4: Download */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
-            <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-              3. Download signed file
+          <Panel title="+--- DOWNLOAD SIGNED FILE ---+">
+            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted">
+              3. download signed file
             </h3>
 
-            <label className="mb-4 flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+            <label className="mb-4 flex items-center gap-2 text-sm text-primary/80">
               <input
                 type="checkbox"
                 checked={includeQr}
                 onChange={(e) => setIncludeQr(e.target.checked)}
-                className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                className="border-border bg-black text-primary"
               />
-              Include verification QR code (visual trust marker)
+              include verification QR code
             </label>
 
             {includeQr && verificationHash && (
-              <div className="mb-4 flex items-center gap-4 rounded-lg bg-gray-50 p-3 dark:bg-gray-800">
+              <div className="mb-4 flex flex-wrap items-center gap-4 border border-border bg-black/70 p-3">
                 <QRCodeCanvas
                   ref={qrRef}
                   value={`PDFKaro Signed | ${verificationHash} | ${new Date().toISOString()}`}
@@ -371,12 +357,10 @@ export default function SignPdf() {
                   level="M"
                 />
                 <div>
-                  <p className="text-xs text-gray-500">Verification ID</p>
-                  <p className="font-mono text-sm font-medium text-gray-900 dark:text-white">
-                    {verificationHash}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Signed on {new Date().toLocaleDateString()}
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted">verification id</p>
+                  <p className="mt-1 font-mono text-sm text-primary">{verificationHash}</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted">
+                    signed on {new Date().toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -384,15 +368,11 @@ export default function SignPdf() {
 
             {processing && <ProgressBar progress={progress} label="Creating signed file..." />}
 
-            <button
-              onClick={downloadSigned}
-              disabled={processing || !placements.length}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-accent-600 disabled:opacity-50 sm:w-auto"
-            >
-              <Download className="h-5 w-5" />
-              {processing ? 'Signing...' : 'Download Signed File'}
-            </button>
-          </div>
+            <Button onClick={downloadSigned} disabled={processing || !placements.length} variant="primary">
+              <Download className="h-4 w-4" />
+              {processing ? 'Signing...' : '[ DOWNLOAD SIGNED FILE ]'}
+            </Button>
+          </Panel>
         </>
       )}
 
