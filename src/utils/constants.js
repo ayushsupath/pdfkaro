@@ -18,6 +18,15 @@ export const TOOLS = [
     color: 'from-blue-500 to-cyan-600',
   },
   {
+    id: 'word-to-pdf',
+    name: 'Word to PDF',
+    description: 'Convert Word documents to PDF, right in your browser.',
+    path: '/word-to-pdf',
+    icon: 'FileText',
+    phase: 1,
+    color: 'from-amber-500 to-orange-600',
+  },
+  {
     id: 'merge-pdf',
     name: 'Merge PDF',
     description: 'Combine multiple PDFs into one document.',

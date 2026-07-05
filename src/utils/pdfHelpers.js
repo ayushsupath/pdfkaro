@@ -60,6 +60,7 @@ const EXT_MAP = {
   'image/jpeg': ['.jpg', '.jpeg'],
   'image/png': ['.png'],
   'image/webp': ['.webp'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
 }
 
 export function validateFile(file, { types = [], maxSize = MAX_FILE_SIZE } = {}) {

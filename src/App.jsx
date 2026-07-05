@@ -8,6 +8,7 @@ import PdfToJpg from './pages/PdfToJpg'
 import MergePdf from './pages/MergePdf'
 import SplitPdf from './pages/SplitPdf'
 import SignPdf from './pages/SignPdf'
+import WordToPdf from './pages/WordToPdf'
 import { useThemeStore } from './store/useStore'
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="jpg-to-pdf" element={<JpgToPdf />} />
           <Route path="pdf-to-jpg" element={<PdfToJpg />} />
+          <Route path="word-to-pdf" element={<WordToPdf />} />
           <Route path="merge-pdf" element={<MergePdf />} />
           <Route path="split-pdf" element={<SplitPdf />} />
           <Route path="sign-pdf" element={<SignPdf />} />
