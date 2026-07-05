@@ -127,7 +127,7 @@ export default function JpgToPdf() {
             </SortableContext>
           </DndContext>
 
-          <label className="inline-flex cursor-pointer items-center gap-2 border border-border bg-black/70 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border-2 border-black bg-ui px-4 py-3 text-[10px] uppercase tracking-[0.25em] text-ink shadow-hard-sm transition duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-none">
             <Plus className="h-4 w-4" />
             add more images
             <input

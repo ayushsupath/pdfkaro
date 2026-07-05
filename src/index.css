@@ -1,37 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fira+Code:wght@400;500;700&display=swap');
+@import url('https://api.fontshare.com/css?f[]=cabinet-grotesk@400,500,600,700,800&f[]=satoshi@500&display=swap');
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
 @custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --color-background: #0a0a0a;
-  --color-primary: #33ff00;
-  --color-secondary: #ffb000;
-  --color-muted: #1f521f;
-  --color-accent: #33ff00;
-  --color-error: #ff3333;
-  --color-border: #1f521f;
-  --color-primary-50: #eaffdf;
-  --color-primary-100: #d1f7bf;
-  --color-primary-400: #66ff4d;
-  --color-primary-500: #33ff00;
-  --color-primary-600: #2ed600;
-  --color-primary-700: #1f9d00;
-  --color-primary-900: #103a0a;
-  --color-accent-400: #33ff00;
-  --color-accent-500: #33ff00;
-  --color-accent-600: #2ed600;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
-  --font-signature-1: "Dancing Script", cursive;
-  --font-signature-2: "Great Vibes", cursive;
-  --font-signature-3: "Sacramento", cursive;
-  --font-signature-4: "Allura", cursive;
-  --font-signature-5: "Pacifico", cursive;
-}
 
 @layer base {
   :root {
     color-scheme: dark;
+    font-family: 'Satoshi', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 
   html {
@@ -39,21 +19,11 @@
   }
 
   body {
-    @apply min-h-screen bg-background font-mono text-primary antialiased;
-    background-image: linear-gradient(rgba(51, 255, 0, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 255, 0, 0.03) 1px, transparent 1px);
-    background-size: 18px 18px, 18px 18px;
-    position: relative;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0, rgba(255, 255, 255, 0.025) 1px, transparent 1px, transparent 4px);
-    opacity: 0.2;
-    mix-blend-mode: screen;
-    z-index: 0;
+    min-height: 100vh;
+    background-color: #171e19;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   #root {
@@ -63,55 +33,29 @@
 }
 
 @layer utilities {
-  .font-signature-1 {
-    font-family: var(--font-signature-1);
-  }
-  .font-signature-2 {
-    font-family: var(--font-signature-2);
-  }
-  .font-signature-3 {
-    font-family: var(--font-signature-3);
-  }
-  .font-signature-4 {
-    font-family: var(--font-signature-4);
-  }
-  .font-signature-5 {
-    font-family: var(--font-signature-5);
+  .font-heading {
+    font-family: 'Cabinet Grotesk', sans-serif;
   }
 
-  .text-glow {
-    text-shadow: 0 0 5px rgba(51, 255, 0, 0.5);
+  .neo-dot-grid {
+    background-image: radial-gradient(circle at 4px 4px, rgba(0, 0, 0, 0.08) 2px, transparent 2px), radial-gradient(circle at 20px 20px, rgba(0, 0, 0, 0.08) 2px, transparent 2px);
+    background-size: 32px 32px;
   }
 
-  .cursor-blink {
-    animation: blink 1s steps(1) infinite;
+  .marquee {
+    animation: marquee 24s linear infinite;
   }
 
-  .glitch-hover:hover {
-    animation: glitch 0.2s steps(2) infinite;
+  .shadow-hard-none {
+    box-shadow: none;
   }
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0;
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
   }
-}
-
-@keyframes glitch {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  20% {
-    transform: translate(-1px, 1px);
-  }
-  40% {
-    transform: translate(1px, -1px);
-  }
-  60% {
-    transform: translate(-1px, -1px);
-  }
-  80% {
-    transform: translate(1px, 1px);
+  to {
+    transform: translateX(-50%);
   }
 }

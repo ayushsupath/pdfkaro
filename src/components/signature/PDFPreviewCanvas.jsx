@@ -88,7 +88,7 @@ export default function PDFPreviewCanvas({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-200 border-t-primary-600" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-black/20 border-t-ink" />
       </div>
     )
   }
@@ -100,7 +100,7 @@ export default function PDFPreviewCanvas({
       {pages.map((page) => (
         <div key={page.pageIndex} className="relative mx-auto" style={{ maxWidth: page.width }}>
           <div
-            className="relative shadow-lg"
+            className="relative rounded-xl border-2 border-black bg-ui shadow-hard-sm"
             onClick={(e) => onPageClick?.(e, page.pageIndex, e.currentTarget)}
           >
             <img
@@ -167,7 +167,7 @@ export default function PDFPreviewCanvas({
                 </div>
               ))}
           </div>
-          <p className="mt-2 text-center text-xs text-gray-500">Page {page.pageIndex + 1}</p>
+          <p className="mt-2 text-center text-xs text-brand-charcoal/70">Page {page.pageIndex + 1}</p>
         </div>
       ))}
     </div>

@@ -4,22 +4,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0a0a0a',
-        primary: '#33ff00',
-        secondary: '#ffb000',
-        muted: '#1f521f',
-        accent: '#33ff00',
-        error: '#ff3333',
-        border: '#1f521f',
+        brand: {
+          yellow: '#ffe17c',
+          charcoal: '#171e19',
+          sage: '#b7c6c2',
+        },
+        ui: '#ffffff',
+        ink: '#000000',
       },
       fontFamily: {
+        heading: ['"Cabinet Grotesk"', 'sans-serif'],
+        body: ['"Satoshi"', 'sans-serif'],
         mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
       },
-      borderRadius: {
-        none: '0px',
-      },
       boxShadow: {
-        none: 'none',
+        'hard-sm': '4px 4px 0px 0px #000000',
+        'hard-lg': '8px 8px 0px 0px #000000',
+        'hard-xl': '12px 12px 0px 0px #000000',
+      },
+      borderWidth: {
+        DEFAULT: '2px',
       },
     },
   },

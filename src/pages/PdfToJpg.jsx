@@ -78,14 +78,14 @@ export default function PdfToJpg() {
       ) : (
         <>
           <Panel title="+--- FILE INFO ---+">
-            <p className="text-sm text-primary">{file.name}</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.25em] text-muted">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
+            <p className="text-sm font-semibold text-ink">{file.name}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.25em] text-brand-charcoal/70">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
             <button
               onClick={() => {
                 setFile(null)
                 setPageCount(0)
               }}
-              className="mt-3 border border-border px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary"
+              className="mt-3 rounded-md border-2 border-black bg-ui px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-ink shadow-hard-sm transition duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-none"
             >
               choose a different file
             </button>
@@ -97,10 +97,10 @@ export default function PdfToJpg() {
                 <button
                   key={f}
                   onClick={() => setFormat(f)}
-                  className={`border px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition-colors ${
+                  className={`rounded-md border-2 border-black px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition duration-200 ${
                     format === f
-                      ? 'border-primary bg-primary text-background'
-                      : 'border-border text-primary hover:border-primary hover:bg-primary/10'
+                      ? 'bg-ink text-ui shadow-hard-sm'
+                      : 'bg-ui text-ink shadow-hard-none hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-sm'
                   }`}
                 >
                   {f}

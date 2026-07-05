@@ -18,7 +18,7 @@ export default function DrawSignature({ onChange }) {
 
   return (
     <div>
-      <div className="overflow-hidden rounded-xl border-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+      <div className="overflow-hidden rounded-xl border-2 border-black bg-ui">
         <SignatureCanvas
           ref={sigRef}
           penColor="#1e1b4b"
@@ -30,7 +30,7 @@ export default function DrawSignature({ onChange }) {
       </div>
       <button
         onClick={clear}
-        className="mt-2 inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+        className="mt-2 inline-flex items-center gap-1.5 rounded-md border-2 border-black bg-ui px-3 py-2 text-sm text-ink shadow-hard-sm transition duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-none"
       >
         <Eraser className="h-4 w-4" />
         Clear

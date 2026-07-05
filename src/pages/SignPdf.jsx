@@ -213,13 +213,13 @@ export default function SignPdf() {
       ) : (
         <>
           <Panel title="+--- FILE INFO ---+">
-            <p className="text-sm text-primary">{pdfFile.name}</p>
+            <p className="text-sm font-semibold text-ink">{pdfFile.name}</p>
             <button
               onClick={() => {
                 setPdfFile(null)
                 setPlacements([])
               }}
-              className="mt-3 border border-border px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:border-primary hover:text-primary"
+              className="mt-3 rounded-md border-2 border-black bg-ui px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-ink shadow-hard-sm transition duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-none"
             >
               choose a different file
             </button>
@@ -227,7 +227,7 @@ export default function SignPdf() {
 
           {/* Step 2: Create Signature */}
           <Panel title="+--- CREATE SIGNATURE ---+">
-            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted">
+            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-brand-charcoal/70">
               1. create your signature
             </h3>
 
@@ -236,10 +236,10 @@ export default function SignPdf() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`border px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition-colors ${
+                  className={`rounded-md border-2 border-black px-3 py-2 text-[10px] uppercase tracking-[0.25em] transition duration-200 ${
                     activeTab === tab.id
-                      ? 'border-primary bg-primary text-background'
-                      : 'border-border text-primary hover:border-primary hover:bg-primary/10'
+                      ? 'bg-ink text-ui shadow-hard-sm'
+                      : 'bg-ui text-ink shadow-hard-none hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-sm'
                   }`}
                 >
                   --{tab.label.toLowerCase()}
@@ -260,9 +260,9 @@ export default function SignPdf() {
             {activeTab === 'upload' && <UploadSignature onSignatureReady={handleSignatureReady} />}
 
             {currentSignature && (
-              <div className="mt-4 border border-border bg-black/70 p-3">
-                <p className="mb-2 text-[10px] uppercase tracking-[0.25em] text-muted">current signature</p>
-                <img src={currentSignature} alt="Signature preview" className="max-h-16 border border-border p-1" />
+              <div className="mt-4 rounded-xl border-2 border-black bg-ui p-3 shadow-hard-sm">
+                <p className="mb-2 text-[10px] uppercase tracking-[0.25em] text-brand-charcoal/70">current signature</p>
+                <img src={currentSignature} alt="Signature preview" className="max-h-16 w-full rounded-sm border-2 border-black p-1" />
               </div>
             )}
 
@@ -281,7 +281,7 @@ export default function SignPdf() {
                       clearSavedSignature()
                       toast.success('Saved signature cleared')
                     }}
-                    className="border border-error px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-error transition-colors hover:bg-error hover:text-background"
+                    className="rounded-md border-2 border-black bg-ui px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-ink shadow-hard-sm transition duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-none"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -291,7 +291,7 @@ export default function SignPdf() {
           </Panel>
 
           <Panel title="+--- PLACE ON DOCUMENT ---+">
-            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted">
+            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-brand-charcoal/70">
               2. place on document
             </h3>
 
@@ -310,14 +310,14 @@ export default function SignPdf() {
               </Button>
             </div>
 
-            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-muted">
+            <p className="mb-4 text-xs uppercase tracking-[0.2em] text-brand-charcoal/70">
               click on a page to place a signature, or use the buttons above. drag to reposition. select a placement to resize.
             </p>
 
             {activePlacementId && (
               <button
                 onClick={() => removePlacement(activePlacementId)}
-                className="mb-4 border border-error px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-error transition-colors hover:bg-error hover:text-background"
+                className="mb-4 rounded-md border-2 border-black bg-ui px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-ink shadow-hard-sm transition duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-none"
               >
                 remove selected placement
               </button>
@@ -334,22 +334,22 @@ export default function SignPdf() {
           </Panel>
 
           <Panel title="+--- DOWNLOAD SIGNED FILE ---+">
-            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted">
+            <h3 className="mb-4 text-[10px] uppercase tracking-[0.3em] text-brand-charcoal/70">
               3. download signed file
             </h3>
 
-            <label className="mb-4 flex items-center gap-2 text-sm text-primary/80">
+            <label className="mb-4 flex items-center gap-2 text-sm text-brand-charcoal">
               <input
                 type="checkbox"
                 checked={includeQr}
                 onChange={(e) => setIncludeQr(e.target.checked)}
-                className="border-border bg-black text-primary"
+                className="h-4 w-4 rounded-sm border-2 border-black bg-ui text-ink"
               />
               include verification QR code
             </label>
 
             {includeQr && verificationHash && (
-              <div className="mb-4 flex flex-wrap items-center gap-4 border border-border bg-black/70 p-3">
+              <div className="mb-4 flex flex-wrap items-center gap-4 rounded-xl border-2 border-black bg-ui p-3 shadow-hard-sm">
                 <QRCodeCanvas
                   ref={qrRef}
                   value={`PDFKaro Signed | ${verificationHash} | ${new Date().toISOString()}`}
@@ -357,9 +357,9 @@ export default function SignPdf() {
                   level="M"
                 />
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted">verification id</p>
-                  <p className="mt-1 font-mono text-sm text-primary">{verificationHash}</p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted">
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-brand-charcoal/70">verification id</p>
+                  <p className="mt-1 font-mono text-sm text-ink">{verificationHash}</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-brand-charcoal/70">
                     signed on {new Date().toLocaleDateString()}
                   </p>
                 </div>

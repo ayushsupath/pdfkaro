@@ -39,7 +39,7 @@ export default function TypeSignature({ text, setText, fontId, setFontId, onSign
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Type your name"
-        className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+        className="w-full rounded-xl border-2 border-black bg-ui px-4 py-3 text-ink outline-none focus:border-black focus:ring-2 focus:ring-brand-yellow"
       />
 
       <div className="flex flex-wrap gap-2">
@@ -47,10 +47,10 @@ export default function TypeSignature({ text, setText, fontId, setFontId, onSign
           <button
             key={f.id}
             onClick={() => setFontId(f.id)}
-            className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+            className={`rounded-md border-2 border-black px-3 py-1.5 text-sm transition duration-200 ${
               fontId === f.id
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300'
+                ? 'bg-ink text-ui shadow-hard-sm'
+                : 'bg-ui text-ink shadow-hard-none hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-sm'
             }`}
           >
             {f.name}
@@ -58,13 +58,13 @@ export default function TypeSignature({ text, setText, fontId, setFontId, onSign
         ))}
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">
+      <div className="rounded-xl border-2 border-black bg-ui p-6 shadow-hard-sm">
         {text ? (
-          <p className={`text-4xl text-indigo-950 dark:text-indigo-100 ${font.className}`}>
+          <p className={`text-4xl text-ink ${font.className}`}>
             {text}
           </p>
         ) : (
-          <p className="text-sm text-gray-400">Preview will appear here</p>
+          <p className="text-sm text-brand-charcoal/70">Preview will appear here</p>
         )}
       </div>
       <canvas ref={canvasRef} className="hidden" />

@@ -7,7 +7,7 @@ const TerminalInput = forwardRef(function TerminalInput(
   return (
     <input
       ref={ref}
-      className={`w-full border border-border bg-black/80 px-3 py-3 text-sm font-medium text-primary outline-none placeholder:text-muted focus:border-primary focus:shadow-[0_0_0_1px_rgba(51,255,0,0.25)] ${className}`.trim()}
+      className={`w-full rounded-md border-2 border-black bg-ui px-4 py-3 text-sm font-medium text-ink outline-none placeholder:text-brand-charcoal/60 focus:border-black focus:ring-2 focus:ring-brand-yellow ${className}`.trim()}
       {...props}
     />
   )
