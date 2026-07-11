@@ -9,6 +9,12 @@ import MergePdf from './pages/MergePdf'
 import SplitPdf from './pages/SplitPdf'
 import SignPdf from './pages/SignPdf'
 import WordToPdf from './pages/WordToPdf'
+import RotatePdf from './pages/RotatePdf'
+import CompressPdf from './pages/CompressPdf'
+import PdfToWord from './pages/PdfToWord'
+import ExcelToPdf from './pages/ExcelToPdf'
+import PowerPointToPdf from './pages/PowerPointToPdf'
+import ProtectUnlockPdf from './pages/ProtectUnlockPdf'
 import { useThemeStore } from './store/useStore'
 
 export default function App() {
@@ -36,6 +42,12 @@ export default function App() {
           <Route path="merge-pdf" element={<MergePdf />} />
           <Route path="split-pdf" element={<SplitPdf />} />
           <Route path="sign-pdf" element={<SignPdf />} />
+          <Route path="rotate-pdf" element={<RotatePdf />} />
+          <Route path="compress-pdf" element={<CompressPdf />} />
+          <Route path="pdf-to-word" element={<PdfToWord />} />
+          <Route path="excel-to-pdf" element={<ExcelToPdf />} />
+          <Route path="powerpoint-to-pdf" element={<PowerPointToPdf />} />
+          <Route path="unlock-pdf" element={<ProtectUnlockPdf />} />
         </Route>
       </Routes>
     </BrowserRouter>

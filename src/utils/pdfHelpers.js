@@ -36,8 +36,8 @@ export function canvasToBlob(canvas, type = 'image/jpeg', quality = 0.92) {
   })
 }
 
-export function canvasToDataUrl(canvas, type = 'image/png') {
-  return canvas.toDataURL(type)
+export function canvasToDataUrl(canvas, type = 'image/png', quality = 0.92) {
+  return canvas.toDataURL(type, quality)
 }
 
 export async function dataUrlToBytes(dataUrl) {
