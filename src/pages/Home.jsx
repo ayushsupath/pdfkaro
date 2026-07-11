@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import ToolCard from '../components/shared/ToolCard'
 import { TOOLS, TRUST_BADGES } from '../utils/constants'
 
 export default function Home() {
   const [displayTitle, setDisplayTitle] = useState('')
+  const location = useLocation()
 
   useEffect(() => {
     let current = 0
@@ -17,6 +18,14 @@ export default function Home() {
 
     return () => window.clearInterval(timer)
   }, [])
+
+  useEffect(() => {
+    if (location.hash === '#tools') {
+      setTimeout(() => {
+        document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    }
+  }, [location])
 
   return (
     <div className="space-y-10">
